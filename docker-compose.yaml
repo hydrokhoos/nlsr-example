@@ -1,0 +1,33 @@
+services:
+  router1:
+    image: hydrokhoos/ndn-all:arm
+    container_name: router1
+    tty: true
+    volumes:
+      - ./:/src
+    environment:
+      - NEIGHBORS=router2 router3
+      - CONTAINER_NAME=router1
+    command: [ "/bin/bash", "/src/startRouter.sh" ]
+
+  router2:
+    image: hydrokhoos/ndn-all:arm
+    container_name: router2
+    tty: true
+    volumes:
+      - ./:/src
+    environment:
+      - NEIGHBORS=router1 router3
+      - CONTAINER_NAME=router2
+    command: [ "/bin/bash", "/src/startRouter.sh" ]
+
+  router3:
+    image: hydrokhoos/ndn-all:arm
+    container_name: router3
+    tty: true
+    volumes:
+      - ./:/src
+    environment:
+      - NEIGHBORS=router1 router2
+      - CONTAINER_NAME=router3
+    command: [ "/bin/bash", "/src/startRouter.sh" ]
